@@ -18,13 +18,9 @@ public class SpringSenForageApplication {
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(SpringSenForageApplication.class, args);
 		
-		Roles role = new Roles();
+		/*Roles role = new Roles();
 		//role.setId(1);
 		role.setNom("ROLE_USER");
-		/*
-		 * List<User> users = new ArrayList<User>(); users.add(user);
-		 * role.setUsers(users);
-		 */
 		
 		User user = new User();
 		user.setNom("DIOP");
@@ -43,7 +39,7 @@ public class SpringSenForageApplication {
 			System.out.println("ok");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 		/*
