@@ -50,6 +50,12 @@ public class Roles implements Serializable {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+	public List<User> getUsers() {
+		return users;
+	}
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 	
 	
 
