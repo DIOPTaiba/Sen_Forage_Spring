@@ -39,6 +39,7 @@ public class Village implements Serializable {
 		this.nom = nom;
 	}
 
+
 	public String getIdVillage() {
 		return idVillage;
 	}
@@ -54,7 +55,24 @@ public class Village implements Serializable {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+
+	public List<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<Client> clients) {
+		this.clients = clients;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
     
+	
     
     
     
