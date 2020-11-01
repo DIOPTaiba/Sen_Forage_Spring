@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Liste des Utilisateurs</title>
+		<link rel="stylesheet" type="text/css" th:href="@{../public/css/bootstrap.min.css}"/>
+	</head>
+	<body>
+		<div class="nav navbar-default">
+			<ul class="nav navbar-nav">
+				<li><a th:href="@{/Village/listeVillage}">Gestion des Utilisateurs</a></li>
+				<li><a th:href="@{/Client/listeClient}">Gestion des Roles</a></li>
+			</ul>
+		</div>
+	<div class="row col-sm-12 col-ms-12 col-lg-12 ">
+		<div class="col-sm-8 col-ms-8 col-lg-8">
+			<div class="card card-primary">
+				<div class="card-header bg-primary py-3 d-flex flex-row align-items-center justify-content-between">
+                	<h6 class="m-0 font-weight-bold text-white">Liste des Utilisateurs</h6>
+            	</div>
+				<div class="card-body">
+					<!-- //on recupère la liste et à chaque fois on met une entrée dans l -->
+					<table class="table table-striped table-bordered table-hover">
+						<thead class="thead-light">
+						<tr class="text-center">
+							<th>Prenom</th>
+							<th>Nom</th>
+							<th>Email</th>
+							<th>Etat</th>
+							<th>Roles</th>
+							<th colspan="2">Action</th>
+						</tr>
+						</thead>
+						<tr th:each="l:${liste_users}">
+							<td th:text="${l.prenom}"></td>
+							<td th:text="${l.nom}"></td>
+							<td th:text="${l.email}"></td>
+							<td th:text="${l.etat}"></td>
+							<!-- <td th:text="${l.roles.nom}"></td> -->
+					<!-- Editer retourne à la méthode edit dans le controller Village -->
+							<td><a th:href="@{/User/editer(id=${l.id})}">Editer</a></td>
+							<td><a th:href="@{/User/supprimer(id=${l.id})}">Supprimer</a></td>
+						</tr>
+					</table>
+				</div>
+	<!--		<div class="panel-footer">Gestion des Users</div> -->
+			</div>
+		</div>
+		
+		<div class="col-sm-4 col-ms-4 col-lg-4">
+			<div class="card card-primary">
+				<div class="card-header bg-primary py-3 d-flex flex-row align-items-center justify-content-between">
+                	<h6 class="m-0 font-weight-bold text-white">Formulaire des utilisateurs</h6>
+            	</div>
+				<div class="card-body">
+					<form method="POST" th:action="@{/User/addUser}" th:object="${user}">
+				<!-- Recupérationde l"ID pour la mise à jour -->
+						<input class="form-control" type="hidden" name="id" th:field="*{id}" />
+	                    <div class="form-group">
+	                        <label class="control-label">Prenom</label>
+	                        <input class="form-control" type="text" name="prenom" th:field="*{prenom}" />
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label">Nom</label>
+	                        <input class="form-control" type="text" name="nom" th:field="*{nom}" />
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label">Email</label>
+	                        <input class="form-control" type="text" name="email" th:field="*{email}" />
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label">Password</label>
+	                        <input class="form-control" type="text" name="password" th:field="*{password}" />
+	                    </div><div class="form-group">
+	                        <label class="control-label">Etat</label>
+	                        <input class="form-control" type="text" name="etat" th:field="*{etat}" />
+	                    </div><div class="form-group">
+	                        <label class="control-label">Url Photo</label>
+	                        <input class="form-control" type="text" name="urlPhoto" th:field="*{urlPhoto}" />
+	                    </div>
+	                    <!-- <div class="form-group">
+	                        <label class="control-label">Roles</label>
+	                        <select class="form-control" name="idRole">
+	                        	<option value="0"> Choisir les roles</option>
+	                        	<option th:each="v:${liste_roles}" th:value="${v.id}" th:text="${v.nom}"></option>
+	                        </select>
+	                    </div> -->
+	                    <div>
+	                        <input class="btn btn-success" type="submit" name="Envoyer" value="Envoyer"/>
+	                        <input class="btn btn-danger" type="reset" name="Annuler" value="Annuler"/>
+	                    </div>
+                	</form>
+					
+				</div>
+	<!--		<div class="panel-footer">Gestion des Clients</div> -->
+			</div>
+		</div>
+	</div>
+	
+	
+	</body>
+</html>
