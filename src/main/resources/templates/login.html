@@ -7,24 +7,18 @@
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" th:href="@{../public/images/icons/favicon.ico}"/>
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/bootstrap/css/bootstrap.min.css}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../public/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{../public/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../public/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/animate/animate.css}">
 <!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/css-hamburgers/hamburgers.min.css}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/select2/select2.min.css}">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
-	<link rel="stylesheet" type="text/css" th:href="@{../public/vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" th:href="@{../public/css/util.css">
-	<link rel="stylesheet" type="text/css" th:href="@{../public/css/main.css">
+	<link rel="stylesheet" type="text/css" th:href="@{../public/css/util.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{../public/css/main.css}">
 <!--===============================================================================================-->
 </head>
 <body>
@@ -32,66 +26,77 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url(images/bg-01.jpg);">
-					<span class="login100-form-title-1">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img th:src="@{../public/images/img-01.png}" alt="IMG">
+				</div>
+				<div>Login ou mot de passe incorrecte !</div>
+				<form class="login100-form validate-form" method="POST" th:action="@{/login}">
+					<span class="login100-form-title">
 						Sen Forage
 					</span>
-				</div>
 
-				<form class="login100-form validate-form">
-					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
-						<span class="label-input100">Email</span>
+					<div class="wrap-input100 validate-input" data-validate = "E-mail obligatoire: exemple@exple.sn">
+				<!-- Avec spring sécurité il faut toujours mettre username comme name -->
 						<input class="input100" type="text" name="username" placeholder="Votre e-mail ici">
 						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
-						<span class="label-input100">Password</span>
-						<input class="input100" type="password" name="pass" placeholder="Votre mot de passe ici">
+					<div class="wrap-input100 validate-input" data-validate = "password obligatoire">
+						<input class="input100" type="password" name="password" placeholder="Votre mot de passe ici">
 						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
 					</div>
-
-					<div class="flex-sb-m w-full p-b-30">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Se souvenir de moi
-							</label>
-						</div>
-
-						<div>
-							<a href="#" class="txt1">
-								Mot de passe oublié ?
-							</a>
-						</div>
-					</div>
-
+					
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
-							Valider
+							Login
 						</button>
 					</div>
+
+					<div class="text-center p-t-12">
+						<span class="txt1">
+							Forgot
+						</span>
+						<a class="txt2" href="#">
+							Username / Password?
+						</a>
+					</div>
+
+					<!-- <div class="text-center p-t-136">
+						<a class="txt2" href="#">
+							Créer un compte
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div> -->
 				</form>
 			</div>
 		</div>
 	</div>
 	
+	
+
+	
+<!--===============================================================================================-->	
+	<script th:src="@{../public/vendor/jquery/jquery-3.2.1.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../public/vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script th:src="@{../public/vendor/bootstrap/js/popper.js}"></script>
+	<script th:src="@{../public/vendor/bootstrap/js/bootstrap.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../public/vendor/animsition/js/animsition.min.js"></script>
+	<script th:src="@{../public/vendor/select2/select2.min.js}"></script>
 <!--===============================================================================================-->
-	<script th:src="@{../public/vendor/bootstrap/js/popper.js"></script>
-	<script th:src="@{../public/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script th:src="@{../public/vendor/tilt/tilt.jquery.min.js}"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
 <!--===============================================================================================-->
-	<script th:src="@{../public/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script th:src="@{../public/vendor/daterangepicker/moment.min.js"></script>
-	<script th:src="@{../public/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
-	<script th:src="@{../public/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
-	<script th:src="@{../public/js/main.js"></script>
+	<script th:src="@{../public/js/main.js}"></script>
 
 </body>
 </html>

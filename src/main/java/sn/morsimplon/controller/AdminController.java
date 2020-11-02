@@ -1,12 +1,9 @@
 package sn.morsimplon.controller;
 
-import java.awt.SystemColor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -43,6 +40,7 @@ public class AdminController {
 			return "redirect:/login";
 	}
 	
+	// SecurityConfig accède à cette page et sera retourné dans le fichier login.html
 	@RequestMapping(value = "/login")
 	public String login() {
 		return "login";
@@ -59,12 +57,10 @@ public class AdminController {
 		return "redirect:/login?logout";
 	}
 	
-	@RequestMapping(value = "/Amin/403")
+	@RequestMapping(value = "/nonAutorise")
 	public String denied() {
-		return "403";
+		return "nonAutorise";
 	}
-	
-	
 	
 	
 	

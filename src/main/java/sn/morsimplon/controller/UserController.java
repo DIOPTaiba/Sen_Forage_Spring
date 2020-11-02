@@ -49,7 +49,7 @@ public class UserController {
 		
 		@RequestMapping(value="/User/addUser", method = RequestMethod.POST)
 		public String addUser(int id, String nom, String prenom, String email, String password, String urlPhoto,
-				int etat/* , int idRole */) {
+				int etat , int idRole ) {
 			
 			//ModelAndView modelandview = new ModelAndView();
 			User user = new User();
@@ -68,7 +68,7 @@ public class UserController {
 			//Roles role = new Roles();
 			//roles = roledao.getOne(idRole);
 			List<Roles> role = roledao.findAll();
-			role.get(1);
+			role.get(idRole);
 			
 			user.setRoles(role);
 			try {
