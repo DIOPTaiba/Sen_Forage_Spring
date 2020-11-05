@@ -3,10 +3,13 @@ package sn.morsimplon.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sn.morsimplon.dao.IClient;
 import sn.morsimplon.dao.IRoles;
@@ -28,19 +31,27 @@ public class RoleController {
 	//ModelAndView pour retourner les données et la vue
 	//requete pour accéder à la page
 	@RequestMapping(value="/Role/listeRole")
-	public String listeRole(ModelMap model) {
+	public String listeRole(ModelMap model,
+		// affiche la liste par page et par taille 
+		@RequestParam(name = "page", defaultValue = "0")int page,
+		@RequestParam(name = "size", defaultValue = "5")int size)
+		/*@RequestParam(name = "nomFamille", defaultValue = "")String mc)*/ {
 		
 		//le controller recupère la liste des villages avec le model (villagedao)
-		List<Roles> roles = roledao.findAll();
+		Page<Roles> roles = roledao.findAll(PageRequest.of(page, size));
 			//List<Village> villages = villagedao.findAll();
 		//et passe la liste au view
 		/* return new ModelAndView("village/liste", "liste_village", villages); */
 		//pour retourner plusieur élément de sources différentes on utilise ModeMap
-		model.put("liste_roles", roles);
+		model.put("liste_roles", roles.getContent());
 			//model.put("liste_villages", villages);
 		//on declare village à null pour le formulaire lorsqu'on ne click pas sur edit
 		//car à chaque on vérifie si village est null ou pas sinon on remplie le formulaire avec les données reçues
 		model.put("role", new Roles());
+		// On cré les pages de pagination avec le nombre total de pages
+			model.addAttribute("pages", new int[roles.getTotalPages()]);
+		// On recupèere la page courante
+			model.addAttribute("currentPage", page);
 		
 		return "role/liste";
 	}

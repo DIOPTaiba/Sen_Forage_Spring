@@ -26,15 +26,16 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
+			<!-- <h2>Plateforme de gestion de Sen Forage</h2> -->
 				<div class="login100-pic js-tilt" data-tilt>
 					<img th:src="@{../public/images/img-01.png}" alt="IMG">
 				</div>
-				<div>Login ou mot de passe incorrecte !</div>
+				
 				<form class="login100-form validate-form" method="POST" th:action="@{/login}">
 					<span class="login100-form-title">
 						Sen Forage
 					</span>
-
+					<div th:if="${param.error}" class="text-danger txt2 m-1">Login et/ou mot de passe incorrecte ou user bloqué!</div>
 					<div class="wrap-input100 validate-input" data-validate = "E-mail obligatoire: exemple@exple.sn">
 				<!-- Avec spring sécurité il faut toujours mettre username comme name -->
 						<input class="input100" type="text" name="username" placeholder="Votre e-mail ici">

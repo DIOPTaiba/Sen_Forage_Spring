@@ -1,90 +1,117 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Liste des Clients</title>
-		<link rel="stylesheet" type="text/css" th:href="@{../public/css/bootstrap.min.css}"/>
-	</head>
-	<body>
-		<div class="nav navbar-default">
-			<ul class="nav navbar-nav">
-				<li><a th:href="@{/Village/listeVillage}">Gestion des Villages</a></li>
-				<li><a th:href="@{/Client/listeClient}">Gestion des Clients</a></li>
-			</ul>
-		</div>
-	<div class="row col-sm-12 col-ms-12 col-lg-12 ">
-		<div class="col-sm-8 col-ms-8 col-lg-8">
-			<div class="card card-primary">
-				<div class="card-header bg-primary py-3 d-flex flex-row align-items-center justify-content-between">
-                	<h6 class="m-0 font-weight-bold text-white">Liste des Clients</h6>
-            	</div>
-				<div class="card-body">
-					<!-- //on recupère la liste et à chaque fois on met une entrée dans l -->
-					<table class="table table-striped table-bordered table-hover">
-						<thead class="thead-light">
-						<tr class="text-center">
-							<th>Nom Client</th>
-							<th>Adresse</th>
-							<th>N° Téléphone</th>
-							<th>Village</th>
-							<th colspan="2">Action</th>
-						</tr>
-						</thead>
-						<tr th:each="l:${liste_clients}">
-							<td th:text="${l.nomFamille}"></td>
-							<td th:text="${l.adresse}"></td>
-							<td th:text="${l.numTel}"></td>
-							<td th:text="${l.village.nom}"></td>
-					<!-- Editer retourne à la méthode edit dans le controller Village -->
-							<td><a th:href="@{/Client/editer(id=${l.id})}">Editer</a></td>
-							<td><a th:href="@{/Client/supprimer(id=${l.id})}">Supprimer</a></td>
-						</tr>
-					</table>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template1">
+<head>
+<meta charset="UTF-8" />
+<title>Liste des Clients</title>
+<!-- <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css"/> -->
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="row mt-5">
+			<!-- <div class="container mt-5"> -->
+			<!-- mt:margine top -->
+			<div class="col-md-8 col-lg-7">
+				<div class="card">
+					<div class="card-header">Liste des Clients</div>
+					<div class="card-body table-responsive">
+						<!-- <form method="get" th:action="@{/Client/listeClient}">
+							<div class="form-group">
+								<label>Nom Famille</label>
+								<input type="text" name="motcle" />
+								<button class="btn btn-success">Rechercher</button>
+							</div>
+						</form> -->
+						<table
+							class="table table-sm table-striped table-sm table-bordered table-hover">
+							<thead class="thead-light">
+								<tr>
+									<th>ID</th>
+									<th>Nom Client</th>
+									<th>Adresse</th>
+									<th>N° Téléphone</th>
+									<th>Village</th>
+									<th colspan="2">Action</th>
+								</tr>
+							</thead>
+							<!-- //on recupère la liste et à chaque fois on met une entrée dans l  table-striped table-bordered table-hover -->
+							<tr th:each="l:${liste_clients}">
+								<td th:text="${l.id}"></td>
+								<td th:text="${l.nomFamille}"></td>
+								<td th:text="${l.adresse}"></td>
+								<td th:text="${l.numTel}"></td>
+								<td th:text="${l.village.nom}"></td>
+								<!-- Editer retourne à la méthode edit dans le controller Village -->
+								<td><a class="btn btn-warning"
+									th:href="@{/Client/editer(id=${l.id})}">Editer</a></td>
+								<td><a class="btn btn-danger"
+									onclick="return confirm('Voulez-vous vraiment supprimer ?')"
+									th:href="@{/Client/supprimer(id=${l.id})}">Supprimer</a></td>
+							</tr>
+						</table>
+						<!--  On affiche la liste des pages -->
+						<ul class="nav nav-pills">
+							<!-- nav-pills pour un nav horizontal -->
+							<!-- pour afficher les N° de page on utilise status et status.index -->
+							<li th:each="page,status:${pages}">
+								<!-- on cré des liens pour les pages --> <a
+								th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+								th:href="@{/Client/listeClient(page=${status.index})}"
+								th:text="${status.index}"></a>
+							</li>
+						</ul>
+					</div>
+					<!--		<div class="panel-footer">Gestion des Clients</div> -->
 				</div>
-	<!--		<div class="panel-footer">Gestion des Clients</div> -->
+				<!-- </div> -->
 			</div>
-		</div>
-		
-		<div class="col-sm-4 col-ms-4 col-lg-4">
-			<div class="card card-primary">
-				<div class="card-header bg-primary py-3 d-flex flex-row align-items-center justify-content-between">
-                	<h6 class="m-0 font-weight-bold text-white">Formulaire des clients</h6>
-            	</div>
-				<div class="card-body">
-					<form method="POST" th:action="@{/Client/addClient}" th:object="${client}">
-				<!-- Recupérationde l"ID pour la mise à jour -->
-						<input class="form-control" type="hidden" name="id" th:field="*{id}" />
-	                    <div class="form-group">
-	                        <label class="control-label">Nom du Client</label>
-	                        <input class="form-control" type="text" name="nomFamille" th:field="*{nomFamille}" />
-	                    </div>
-	                    <div class="form-group">
-	                        <label class="control-label">Adresse</label>
-	                        <input class="form-control" type="text" name="adresse" th:field="*{adresse}" />
-	                    </div>
-	                    <div class="form-group">
-	                        <label class="control-label">N° Téléphone</label>
-	                        <input class="form-control" type="text" name="numTel" th:field="*{numTel}" />
-	                    </div>
-	                    <div class="form-group">
-	                        <label class="control-label">Village</label>
-	                        <select class="form-control" name="idVillage">
-	                        	<option value="0"> Choisir un Village</option>
-	                        	<option th:each="v:${liste_villages}" th:value="${v.idVillage}" th:text="${v.nom}"></option>
-	                        </select>
-	                    </div>
-	                    <div>
-	                        <input class="btn btn-success" type="submit" name="Envoyer" value="Envoyer"/>
-	                        <input class="btn btn-danger" type="reset" name="Annuler" value="Annuler"/>
-	                    </div>
-                	</form>
-					
+			<!-- ==========================================Formulaire d'inscription============================  -->
+
+			<div class="col-md-4 col-lg-5">
+				<div class="card">
+					<div class="card-header" th:if="${mode=='ajout'}">Formulaire d'ajout nouveau Client</div>
+					<div class="card-header" th:if="${mode=='edit'}">Formulaire de mise à jour de Client</div>
+					<div class="card-body table-responsive">
+						<form method="POST" th:action="@{/Client/addClient}"
+							th:object="${client}">
+							<!-- Recupérationde l"ID pour la mise à jour -->
+							<input class="form-control" type="hidden" name="id"
+								th:field="*{id}" />
+							<div class="form-group">
+								<label class="control-label">Nom du Client</label> <input
+									class="form-control" type="text" name="nomFamille"
+									th:field="*{nomFamille}" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">Adresse</label> <input
+									class="form-control" type="text" name="adresse"
+									th:field="*{adresse}" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">N° Téléphone</label> <input
+									class="form-control" type="text" name="numTel"
+									th:field="*{numTel}" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">Village</label> <select
+									class="form-control" name="idVillage">
+									<option value="0">Choisir un Village</option>
+									<option th:each="v:${liste_villages}" th:value="${v.idVillage}"
+										th:text="${v.nom}"></option>
+								</select>
+							</div>
+							<div>
+								<input class="btn btn-success" type="submit" name="Envoyer"	value="Envoyer" /> 
+								<input class="btn btn-danger" type="reset" name="Annuler" value="Annuler" />
+							</div>
+						</form>
+
+					</div>
+					<!--		<div class="panel-footer">Gestion des Clients</div> -->
 				</div>
-	<!--		<div class="panel-footer">Gestion des Clients</div> -->
 			</div>
 		</div>
 	</div>
-	
-	
-	</body>
+</body>
 </html>

@@ -3,10 +3,13 @@ package sn.morsimplon.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sn.morsimplon.dao.IUser;
 import sn.morsimplon.dao.IRoles;
@@ -28,19 +31,27 @@ public class UserController {
 		//ModelAndView pour retourner les données et la vue
 		//requete pour accéder à la page
 		@RequestMapping(value="/User/listeUser")
-		public String listeUser(ModelMap model) {
+		public String listeUser(ModelMap model,
+			//affiche la liste par page et par taille
+			@RequestParam(name = "page", defaultValue = "0")int page,
+			@RequestParam(name = "size", defaultValue = "5")int size)
+			/*@RequestParam(name = "nomFamille", defaultValue = "")String mc)*/ {
 			
 			//le controller recupère la liste des roles avec le model (villagedao)
-			List<User> users = userdao.findAll();
+			Page<User> users = userdao.findAll(PageRequest.of(page, size));
 			List<Roles> roles = roledao.findAll();
 			//et passe la liste au views
 			/* return new ModelAndView("village/liste", "liste_village", villages); */
 			//pour retourner plusieur élément de sources différentes on utilise ModeMap
-			model.put("liste_users", users);
+			model.put("liste_users", users.getContent());
 			model.put("liste_roles", roles);
 			//on declare village à null pour le formulaire lorsqu'on ne click pas sur edit
 			//car à chaque on vérifie si village est null ou pas sinon on remplie le formulaire avec les données reçues
 			model.put("user", new User());
+			// On cré les pages de pagination avec le nombre total de pages
+			model.addAttribute("pages", new int[users.getTotalPages()]);
+		// On recupèere la page courante
+			model.addAttribute("currentPage", page);
 			
 			return "user/liste";
 		}
