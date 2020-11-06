@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="fr">
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
-	<body>
-		Page Accueil
-	</body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template1">
+	<!-- importation de la page accueil qui contient notre tepmlate -->
+<head>
+<meta charset="UTF-8" />
+<title>Liste des Clients</title>
+<!-- <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css"/> -->
+</head>
+<body style=" background-color: #073c77;">
+	<div layout:fragment="pageContent">
+		<div class="container mt-5" style="width:700px; margin: auto;">
+			<img  th:src="@{../public/images/image_forage.jpg}" alt="forage" >
+		</div>
+	</div>
+</body>
 </html>
