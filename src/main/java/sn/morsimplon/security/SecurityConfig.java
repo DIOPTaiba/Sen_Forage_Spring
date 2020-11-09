@@ -24,7 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	
-		PasswordEncoder passwordEncoder = passwordEncoder();
+		//PasswordEncoder passwordEncoder = passwordEncoder();
+		BCryptPasswordEncoder passwordEncoder = passwordEncoder();
 		System.out.println("=============================================");
 		System.out.println("Mot de passe "+passwordEncoder.encode("passer"));
 		System.out.println("=============================================");
@@ -47,13 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		try {
 			http.formLogin().loginPage("/login"); // On personnalise la page login il va chercher la page /login dans les controller (AdminController)
 			// Les droits pour la Gestionnaire des clients
-			http.authorizeRequests().antMatchers("/Client/**", "/Village/**").hasRole("CLIENTEL");
+			http.authorizeRequests().antMatchers("/Village/**", "/Client/**").hasRole("CLIENTEL");
 			// Les droits pour la Gestionnaire commerciale
 			http.authorizeRequests().antMatchers("/Client/**").hasRole("COMMERCIAL");
 			// Les droits pour la Gestionnaire des compteurs
 			http.authorizeRequests().antMatchers("/Client/**").hasRole("COMPTEUR");
 			// Les droits pour le role Admin
-			http.authorizeRequests().antMatchers("/User/**", "/Roles/**").hasRole("ADMIN");
+			http.authorizeRequests().antMatchers("/User/**", "/Role/**").hasRole("ADMIN");
 		// Permet d'autoriser pour tout le monde les pages /User et /login
 		//http.authorizeRequests().antMatchers("/User/**", "/login/**").permitAll();
 		// Permet de demander une authtntification à toutes les autres requetes
@@ -67,8 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	public BCryptPasswordEncoder passwordEncoder() {
+		//PasswordEncoder password = new BCryptPasswordEncoder(); PasswordEncoder
+		BCryptPasswordEncoder password = new BCryptPasswordEncoder();
+		return password;
 	}
 	
 }

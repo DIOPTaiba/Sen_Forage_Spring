@@ -34,7 +34,7 @@ public class RoleController {
 	public String listeRole(ModelMap model,
 		// affiche la liste par page et par taille 
 		@RequestParam(name = "page", defaultValue = "0")int page,
-		@RequestParam(name = "size", defaultValue = "5")int size)
+		@RequestParam(name = "size", defaultValue = "6")int size)
 		/*@RequestParam(name = "nomFamille", defaultValue = "")String mc)*/ {
 		
 		//le controller recupère la liste des villages avec le model (villagedao)
@@ -52,6 +52,7 @@ public class RoleController {
 			model.addAttribute("pages", new int[roles.getTotalPages()]);
 		// On recupèere la page courante
 			model.addAttribute("currentPage", page);
+			model.addAttribute("mode", "ajout");
 		
 		return "role/liste";
 	}

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +34,7 @@ public class VillageController {
 	public String listeVillage(ModelMap model,
 			// affiche la liste par page et par taille 
 			@RequestParam(name = "page", defaultValue = "0")int page,
-			@RequestParam(name = "size", defaultValue = "5")int size)
+			@RequestParam(name = "size", defaultValue = "6")int size)
 			/*@RequestParam(name = "nomFamille", defaultValue = "")String mc)*/ {
 		
 		//le controller recupère la liste des villages avec le model (villagedao)
@@ -51,6 +52,7 @@ public class VillageController {
 		model.addAttribute("pages", new int[villages.getTotalPages()]);
 	// On recupèere la page courante
 		model.addAttribute("currentPage", page);
+		model.addAttribute("mode", "ajout");
 		
 		return "village/liste";
 	}
@@ -58,7 +60,7 @@ public class VillageController {
 //===========================================================================Ajout village=====================================================
 	
 	@RequestMapping(value="/Village/addVillage", method = RequestMethod.POST)
-	public String addVillage(String idVillage, String nom, int idUser) {
+	public String addVillage(Model model, String idVillage, String nom, int idUser) {
 		
 		//ModelAndView modelandview = new ModelAndView();
 		Village village = new Village();
@@ -77,7 +79,7 @@ public class VillageController {
 			e.printStackTrace();
 		}
 		
-		//modelandview.addObject(new String("village/liste"));
+		model.addAttribute("mode", "ajout");
 		return "redirect:/Village/listeVillage";
 	}
 	

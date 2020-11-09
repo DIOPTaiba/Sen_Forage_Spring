@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorator="template1">
-	<!-- importation de la page accueil qui contient notre tepmlate -->
-	<head>
-		<meta charset="UTF-8" />
-		<title>Liste des Utilisateurs</title>
-		<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css"/>
-	</head>
-	<body>
-		<div layout:fragment="pageContent">
-			<div class="container mt-5"> <!-- mt:margine top -->
-				<div class="card">
-					<div class="card-header">Liste des Utilisateurs</div>
-					<div class="card-body table-responsive">
-						<!-- <form method="get" th:action="@{/User/listeUser}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template1">
+<!-- importation de la page accueil qui contient notre tepmlate -->
+<head>
+<meta charset="UTF-8" />
+<title>Liste des Utilisateurs</title>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css" />
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container">
+			<div class="row mt-5">
+				<!-- <div class="container mt-5"> -->
+				<!-- mt:margine top -->
+				<div class="col-md-9 col-lg-8">
+					<div class="card">
+						<div class="card-header">Liste des Utilisateurs</div>
+						<div class="card-body table-responsive">
+							<!-- <form method="get" th:action="@{/User/listeUser}">
 							<div class="form-group">
 								<label>Nom Famille</label>
 								<input type="text" name="motcle" />
 								<button class="btn btn-success">Rechercher</button>
 							</div>
 						</form> -->
-						<table class="table table-striped table-bordered table-hover">
-							<thead class="thead-light">
-								<tr>
-									<th>ID</th>
-									<th>Prenom</th>
-									<th>Nom</th>
-									<th>Email</th>
-									<th>Etat</th>
-									<th>Roles</th>
-									<th colspan="2">Action</th>
-								</tr>
+							<table
+								class="table table-sm table-striped table-sm table-bordered table-hover">
+								<thead class="thead-light">
+									<tr>
+										<th>ID</th>
+										<th>Prenom</th>
+										<th>Nom</th>
+										<th>Email</th>
+										<th>Etat</th>
+										<th>Roles</th>
+										<th colspan="2">Action</th>
+									</tr>
 								</thead>
 								<tr th:each="l:${liste_users}">
 									<td th:text="${l.id}"></td>
@@ -39,74 +45,113 @@
 									<td th:text="${l.nom}"></td>
 									<td th:text="${l.email}"></td>
 									<td th:text="${l.etat}"></td>
-									<!-- <td th:text="${l.roles.nom}"></td> -->
-							<!-- Editer retourne à la méthode edit dans le controller Utilisateur -->
-									<td><a class="btn btn-warning" th:href="@{/User/editer(id=${l.id})}">Editer</a></td>
-									<td><a class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ?')" th:href="@{/User/supprimer(id=${l.id})}">Supprimer</a></td>
+									<td th:each="role:${l.roles}" th:text="${role.nom}"></td>
+
+									<!-- Editer retourne à la méthode edit dans le controller Utilisateur -->
+									<td><a class="btn btn-warning"
+										th:href="@{/User/editer(id=${l.id})}">Editer</a></td>
+									<td><a class="btn btn-danger"
+										onclick="return confirm('Voulez-vous vraiment supprimer ?')"
+										th:href="@{/User/supprimer(id=${l.id})}">Supprimer</a></td>
 								</tr>
 							</table>
-						<!--  On affiche la liste des pages -->
-							<ul class="nav nav-pills">   <!-- nav-pills pour un nav horizontal -->
-							<!-- pour afficher les N° de page on utilise status et status.index -->
+							<!--  On affiche la liste des pages -->
+							<ul class="nav nav-pills">
+								<!-- nav-pills pour un nav horizontal -->
+								<!-- pour afficher les N° de page on utilise status et status.index -->
 								<li th:each="page,status:${pages}">
-							<!-- on cré des liens pour les pages -->
-									<a th:class="${status.index==currentPage?'btn btn-primary':'btn'}" th:href="@{/User/listeUser(page=${status.index})}" th:text="${status.index}"></a>
+									<!-- on cré des liens pour les pages --> <a
+									th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+									th:href="@{/User/listeUser(page=${status.index})}"
+									th:text="${status.index}"></a>
 								</li>
 							</ul>
 						</div>
-			<!--		<div class="panel-footer">Gestion des Users</div> -->
+						<!--		<div class="panel-footer">Gestion des Users</div> -->
 					</div>
 				</div>
-				
-				<div class="col-sm-4 col-ms-4 col-lg-4">
-					<div class="card card-primary">
-						<div class="card-header bg-primary py-3 d-flex flex-row align-items-center justify-content-between">
-		                	<h6 class="m-0 font-weight-bold text-white">Formulaire des utilisateurs</h6>
-		            	</div>
-						<div class="card-body">
-							<form method="POST" th:action="@{/User/addUser}" th:object="${user}">
-						<!-- Recupérationde l"ID pour la mise à jour -->
-								<input class="form-control" type="hidden" name="id" th:field="*{id}" />
-			                    <div class="form-group">
-			                        <label class="control-label">Prenom</label>
-			                        <input class="form-control" type="text" name="prenom" th:field="*{prenom}" />
-			                    </div>
-			                    <div class="form-group">
-			                        <label class="control-label">Nom</label>
-			                        <input class="form-control" type="text" name="nom" th:field="*{nom}" />
-			                    </div>
-			                    <div class="form-group">
-			                        <label class="control-label">Email</label>
-			                        <input class="form-control" type="text" name="email" th:field="*{email}" />
-			                    </div>
-			                    <div class="form-group">
-			                        <label class="control-label">Password</label>
-			                        <input class="form-control" type="text" name="password" th:field="*{password}" />
-			                    </div><div class="form-group">
-			                        <label class="control-label">Etat</label>
-			                        <input class="form-control" type="text" name="etat" th:field="*{etat}" />
-			                    </div><div class="form-group">
-			                        <label class="control-label">Url Photo</label>
-			                        <input class="form-control" type="text" name="urlPhoto" th:field="*{urlPhoto}" />
-			                    </div>
-			                    <!-- <div class="form-group">
+
+				<!-- ===================================================Formulaire d'inscription=========================================  -->
+
+				<div class="col-md-3 col-lg-4">
+					<div class="card">
+						<div class="card-header" th:if="${mode=='ajout'}">Formulaire
+							d'ajout nouveau Utilisateur</div>
+						<div class="card-header" th:if="${mode=='edit'}">Formulaire
+							de mise à jour de l'Utilisateur</div>
+						<div class="card-body table-responsive">
+							<form method="POST" th:action="@{/User/addUser}"
+								th:object="${user}">
+								<!-- Recupérationde l"ID pour la mise à jour -->
+								<input class="form-control" type="hidden" name="id"
+									th:field="*{id}" />
+								<div class="form-group">
+									<label class="control-label">Prenom</label> <input
+										class="form-control" type="text" name="prenom"
+										th:field="*{prenom}" />
+								</div>
+								<div class="form-group">
+									<label class="control-label">Nom</label> <input
+										class="form-control" type="text" name="nom" th:field="*{nom}" />
+								</div>
+								<div class="form-group">
+									<label class="control-label">Email</label> <input
+										class="form-control" type="text" name="email"
+										th:field="*{email}" />
+								</div>
+								<div class="form-group">
+									<label class="control-label">Password</label> <input
+										class="form-control" type="text" name="password"
+										th:field="*{password}" />
+								</div>
+								<div class="form-group">
+									<label class="control-label">Etat</label> <input
+										class="form-control" type="text" name="etat"
+										th:field="*{etat}" />
+								</div>
+								<div class="form-group">
+									<label class="control-label">Url Photo</label> <input
+										class="form-control" type="text" name="urlPhoto"
+										th:field="*{urlPhoto}" />
+								</div>
+								<!-- <div class="form-group">
 			                        <label class="control-label">Roles</label>
 			                        <select class="form-control" name="idRole">
 			                        	<option value="0"> Choisir les roles</option>
 			                        	<option th:each="v:${liste_roles}" th:value="${v.id}" th:text="${v.nom}"></option>
 			                        </select>
 			                    </div> -->
-			                    <div>
-			                        <input class="btn btn-success" type="submit" name="Envoyer" value="Envoyer"/>
-			                        <input class="btn btn-danger" type="reset" name="Annuler" value="Annuler"/>
-			                    </div>
-		                	</form>
-							
+								<!-- ========================================================Selection des roles à attribuer à l'utilisateur================================= -->
+								<h5>Veuillez sélectionner les roles</h5>
+								<div>
+									<input type="checkbox" id="ADMIN" name="admin" value="ADMIN">
+									<label for="ADMIN">ADMIN</label>
+								</div>
+								<div>
+									<input type="checkbox" id="COMMERCIAL" name="commercial"
+										value="COMMERCIAL"> <label for="COMMERCIAL">COMMERCIAL</label>
+								</div>
+								<div>
+									<input type="checkbox" id="CLIENTEL" name="clientel"
+										value="CLIENTEL"> <label for="CLIENTEL">CLIENTEL</label>
+								</div>
+								<div>
+									<input type="checkbox" id="COMPTEUR" name="compteur"
+										value="COMPTEUR"> <label for="COMPTEUR">COMPTEUR</label>
+								</div>
+								<div>
+									<input class="btn btn-success" type="submit" name="Envoyer"
+										value="Envoyer" /> <input class="btn btn-danger" type="reset"
+										name="Annuler" value="Annuler" />
+								</div>
+							</form>
+
 						</div>
-			<!--		<div class="panel-footer">Gestion des Clients</div> -->
+						<!--		<div class="panel-footer">Gestion des Clients</div> -->
 					</div>
 				</div>
 			</div>
-	
-	</body>
+		</div>
+	</div>
+</body>
 </html>

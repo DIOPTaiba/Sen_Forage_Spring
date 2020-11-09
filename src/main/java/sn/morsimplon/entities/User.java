@@ -37,7 +37,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Village> villages = new ArrayList<Village>();
     //On une relations ManyToMany entre user et role donc on va faire la jointure entre les tables
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role",joinColumns = {@JoinColumn(name = "idUser", nullable = false, updatable = false)},
 		inverseJoinColumns = {@JoinColumn(name = "idRole", nullable = false, updatable = false)})
 	private List<Roles> roles = new ArrayList<Roles>();
